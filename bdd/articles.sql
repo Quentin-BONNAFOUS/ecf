@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 07 mai 2021 à 08:26
+-- Généré le : ven. 07 mai 2021 à 09:29
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.4.9
 
@@ -24,36 +24,80 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `creerarticle`
+-- Structure de la table `listearticles`
 --
 
-DROP TABLE IF EXISTS `creerarticle`;
-CREATE TABLE IF NOT EXISTS `creerarticle` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `listearticles`;
+CREATE TABLE IF NOT EXISTS `listearticles` (
+  `idArticle` int(11) NOT NULL AUTO_INCREMENT,
   `titreArticle` varchar(255) NOT NULL,
-  `nomCategorie` varchar(255) NOT NULL,
-  `nomTags` varchar(255) NOT NULL,
-  `contenuArticle` text NOT NULL,
+  `statutArticle` enum('Publi','Corbeille','Brouillon') NOT NULL,
   `dateCreationArticle` date NOT NULL,
-  PRIMARY KEY (`id`)
+  `datePublicationtionArticle` date NOT NULL,
+  `ContenuArticle` text NOT NULL,
+  `idCategorie` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idArticle`),
+  KEY `listeArticles_listeCategories_FK` (`idCategorie`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `listesarticles`
+-- Structure de la table `listecategories`
 --
 
-DROP TABLE IF EXISTS `listesarticles`;
-CREATE TABLE IF NOT EXISTS `listesarticles` (
-  `idArticle` int(11) NOT NULL,
-  `titreArticle` varchar(255) NOT NULL,
-  `datePublicationtionArticle` date NOT NULL,
-  `statutArticle` enum('Publié','Corbeille','Brouillon') NOT NULL,
+DROP TABLE IF EXISTS `listecategories`;
+CREATE TABLE IF NOT EXISTS `listecategories` (
+  `idCategorie` int(11) NOT NULL AUTO_INCREMENT,
   `nomCategorie` varchar(255) NOT NULL,
-  `nomTags` varchar(255) NOT NULL,
-  PRIMARY KEY (`idArticle`)
+  `descriptionCategorie` text NOT NULL,
+  PRIMARY KEY (`idCategorie`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `listetags`
+--
+
+DROP TABLE IF EXISTS `listetags`;
+CREATE TABLE IF NOT EXISTS `listetags` (
+  `idTag` int(11) NOT NULL AUTO_INCREMENT,
+  `nomTag` varchar(255) NOT NULL,
+  `descriptionTag` varchar(255) NOT NULL,
+  PRIMARY KEY (`idTag`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `posseder`
+--
+
+DROP TABLE IF EXISTS `posseder`;
+CREATE TABLE IF NOT EXISTS `posseder` (
+  `idTag` int(11) NOT NULL,
+  `idArticle` int(11) NOT NULL,
+  PRIMARY KEY (`idTag`,`idArticle`),
+  KEY `Posseder_listeArticles0_FK` (`idArticle`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `listearticles`
+--
+ALTER TABLE `listearticles`
+  ADD CONSTRAINT `listeArticles_listeCategories_FK` FOREIGN KEY (`idCategorie`) REFERENCES `listecategories` (`idCategorie`);
+
+--
+-- Contraintes pour la table `posseder`
+--
+ALTER TABLE `posseder`
+  ADD CONSTRAINT `Posseder_listeArticles0_FK` FOREIGN KEY (`idArticle`) REFERENCES `listearticles` (`idArticle`),
+  ADD CONSTRAINT `Posseder_listeTags_FK` FOREIGN KEY (`idTag`) REFERENCES `listetags` (`idTag`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
