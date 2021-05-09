@@ -1,3 +1,15 @@
+<?php
+require "connect.php";
+require "helpers.php";
+
+$stmt = $db->query("SELECT * from listearticles
+                       LEFT JOIN listecategories ON listearticles.idCategorie = listecategories.idCategorie
+                       INNER JOIN posseder ON listearticles.idArticle = posseder.idArticle 
+                       INNER JOIN listeTags ON listetags.idTag = posseder.idTag");
+                       
+$articles = $stmt->fetchAll();
+
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +22,7 @@
     <div class="container">
         <div class="d-flex justify-content-between mt-3 mb-3">
             <h1>Liste d'articles</h1>
-            <a class="btn btn-primary d-flex align-items-center" href="#">Créer un article</a>
+            <a class="btn btn-primary d-flex align-items-center" href="editors.php">Créer un article</a>
         </div>
         <table class="table">
             <thead>
@@ -23,6 +35,18 @@
                     <th></th>
                 </tr>
             </thead>
+            <?php foreach($articles as $article){ ?>
+                    <tr>
+                        <td><?= $article["titreArticle"] ?></td>
+                        <td><?= afficheDateFR($article["dateCreationArticle"]) ?></td>
+                        <td><?= $article["statutArticle"] ?></td>
+                        <td><?= $article["nomCategorie"] ?></td>
+                        <td><?= $article["nomTag"] ?></td></td>
+                        <td>
+                        <a href="#">Modifier</a>
+                    </td>
+                </tr>
+            <?php } ?>
         </table>
     </div>
 </body>

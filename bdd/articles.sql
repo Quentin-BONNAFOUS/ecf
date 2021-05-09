@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 07 mai 2021 à 09:29
+-- Généré le : Dim 09 mai 2021 à 17:51
 -- Version du serveur :  5.7.31
--- Version de PHP : 7.4.9
+-- Version de PHP : 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,18 @@ CREATE TABLE IF NOT EXISTS `listearticles` (
   `idCategorie` int(11) DEFAULT NULL,
   PRIMARY KEY (`idArticle`),
   KEY `listeArticles_listeCategories_FK` (`idCategorie`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `listearticles`
+--
+
+INSERT INTO `listearticles` (`idArticle`, `titreArticle`, `statutArticle`, `dateCreationArticle`, `datePublicationtionArticle`, `ContenuArticle`, `idCategorie`) VALUES
+(1, 'Candy pudding cupcake', 'Brouillon', '2021-05-06', '2021-05-06', '', 1),
+(2, 'Danish chupa chups', 'Publi', '2021-05-01', '2021-05-01', '', 2),
+(3, 'Fruitcake marshmallow', 'Corbeille', '2021-04-25', '2021-05-24', '', 2),
+(29, 'Cookies', 'Brouillon', '2021-05-09', '2021-05-09', 'Bien protéiné ', 1),
+(30, 'Barre', 'Publi', '2021-05-09', '2021-05-09', 'miam ;)', 2);
 
 -- --------------------------------------------------------
 
@@ -52,7 +63,15 @@ CREATE TABLE IF NOT EXISTS `listecategories` (
   `nomCategorie` varchar(255) NOT NULL,
   `descriptionCategorie` text NOT NULL,
   PRIMARY KEY (`idCategorie`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `listecategories`
+--
+
+INSERT INTO `listecategories` (`idCategorie`, `nomCategorie`, `descriptionCategorie`) VALUES
+(1, 'Cake', 'Gâteau '),
+(2, 'Sweets', 'Gâteau ');
 
 -- --------------------------------------------------------
 
@@ -66,7 +85,17 @@ CREATE TABLE IF NOT EXISTS `listetags` (
   `nomTag` varchar(255) NOT NULL,
   `descriptionTag` varchar(255) NOT NULL,
   PRIMARY KEY (`idTag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `listetags`
+--
+
+INSERT INTO `listetags` (`idTag`, `nomTag`, `descriptionTag`) VALUES
+(1, 'Jelly', ''),
+(2, 'Fudge', ''),
+(3, 'Sugar', ''),
+(4, 'Beans', '');
 
 -- --------------------------------------------------------
 
@@ -81,6 +110,17 @@ CREATE TABLE IF NOT EXISTS `posseder` (
   PRIMARY KEY (`idTag`,`idArticle`),
   KEY `Posseder_listeArticles0_FK` (`idArticle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `posseder`
+--
+
+INSERT INTO `posseder` (`idTag`, `idArticle`) VALUES
+(1, 1),
+(3, 2),
+(2, 3),
+(2, 29),
+(2, 30);
 
 --
 -- Contraintes pour les tables déchargées
