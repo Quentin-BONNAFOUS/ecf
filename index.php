@@ -22,7 +22,7 @@ $articles = $stmt->fetchAll();
     <div class="container">
         <div class="d-flex justify-content-between mt-3 mb-3">
             <h1>Liste d'articles</h1>
-            <a class="btn btn-primary d-flex align-items-center" href="editors.php">Créer un article</a>
+            <a class="btn btn-primary d-flex align-items-center" href="editors.php?news">Créer un article</a>
         </div>
         <table class="table">
             <thead>
@@ -43,7 +43,7 @@ $articles = $stmt->fetchAll();
                         <td><?= $article["nomCategorie"] ?></td>
                         <td><?= $article["nomTag"] ?></td></td>
                         <td>
-                        <a href="#">Modifier</a>
+                        <a href="editor.php?idArticle=<?= $article["idArticle"] ?>">Modifier</a>
                     </td>
                 </tr>
             <?php } ?>
