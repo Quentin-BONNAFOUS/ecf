@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : Dim 09 mai 2021 à 17:51
+-- Généré le : lun. 10 mai 2021 à 09:33
 -- Version du serveur :  5.7.31
--- Version de PHP : 7.3.21
+-- Version de PHP : 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,18 +38,17 @@ CREATE TABLE IF NOT EXISTS `listearticles` (
   `idCategorie` int(11) DEFAULT NULL,
   PRIMARY KEY (`idArticle`),
   KEY `listeArticles_listeCategories_FK` (`idCategorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `listearticles`
 --
 
 INSERT INTO `listearticles` (`idArticle`, `titreArticle`, `statutArticle`, `dateCreationArticle`, `datePublicationtionArticle`, `ContenuArticle`, `idCategorie`) VALUES
-(1, 'Candy pudding cupcake', 'Brouillon', '2021-05-06', '2021-05-06', '', 1),
-(2, 'Danish chupa chups', 'Publi', '2021-05-01', '2021-05-01', '', 2),
-(3, 'Fruitcake marshmallow', 'Corbeille', '2021-04-25', '2021-05-24', '', 2),
-(29, 'Cookies', 'Brouillon', '2021-05-09', '2021-05-09', 'Bien protéiné ', 1),
-(30, 'Barre', 'Publi', '2021-05-09', '2021-05-09', 'miam ;)', 2);
+(1, 'Candy pudding', 'Brouillon', '2021-05-06', '2021-05-06', 'Bien protéiné', 1),
+(2, 'Cookie', 'Brouillon', '2021-05-01', '2021-05-01', 'Bien protéiné', 2),
+(3, 'Danish Chupa', 'Corbeille', '2021-04-25', '2021-05-24', 'Bien protéiné', 2),
+(29, 'Fruitcake', 'Brouillon', '2021-05-09', '2021-05-09', 'Bien protéiné', 1);
 
 -- --------------------------------------------------------
 
@@ -119,8 +118,7 @@ INSERT INTO `posseder` (`idTag`, `idArticle`) VALUES
 (1, 1),
 (3, 2),
 (2, 3),
-(2, 29),
-(2, 30);
+(2, 29);
 
 --
 -- Contraintes pour les tables déchargées
