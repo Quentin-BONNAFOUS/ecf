@@ -1,3 +1,24 @@
+<?php
+require "connect.php";
+require "helpers.php";
+
+if(!validGET("idArticle")){
+    redirectTo("index.php");
+}
+$id = $_GET["idArticle"];
+$errors = [];
+
+$stmt = $db->prepare("SELECT * FROM listearticles WHERE idArticle=?");
+
+$article = null;
+if($stmt->execute([$id])){
+    $article= $stmt->fetch();
+}else{
+    $errors[] = "L'article avec l'id $id n'a pu être trouvé";
+}
+
+
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +37,7 @@
                 <div class="d-flex justify-content-between">
                     <div class="form-group w-50">
                     <input type="text" id="titreArticle" name="titreArticle"
-                            placeholder="Titre de l'article">
+                            placeholder="<?= $article["titreArticle"] ?>">
                     </div>
                     <div class="form-group w-50">
                         <label for="input-categorie">Categorie</label><br/>
@@ -29,7 +50,7 @@
                 <div class="d-flex justify-content-between">
                     <div class="form-group w-50">
                     <input type="text" id="ContenuArticle" name="ContenuArticle"
-                            placeholder="Super contenu">
+                            placeholder="<?= $article["ContenuArticle"] ?>">
                     </div>
                     <div class="form-group w-50">
                         <label for="input-tag">Tags</label><br/>
@@ -41,8 +62,15 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="mt-3 btn btn-primary">Publier</button>
-                <button type="button" class="mt-3 btn btn-primary">Sauvegarder</button>
+                <div class="form-group w-50">
+                        <label for="input-statutArticle">Statut Article</label><br/>
+                        <select id="input-statutArticle" name="statutArticle">
+                            <option>Publi</option>
+                            <option>Brouillon</option>
+                            <option>Corbeille</option>
+                        </select>
+                </div>
+                <button type="submit" class="mt-3 btn btn-primary">Valider</button>
             </form>
         </div>
     </div>

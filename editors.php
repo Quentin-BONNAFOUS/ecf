@@ -4,15 +4,16 @@ require "helpers.php";
 
 $errors = [];
 if($_SERVER["REQUEST_METHOD"] === "POST"){
-    if(validPOST("titreArticle") && validPOST("ContenuArticle") && validPOST("nomCategorie") && validPOST("nomTag")){
+    if(validPOST("titreArticle") && validPOST("ContenuArticle") && validPOST("nomCategorie") && validPOST("nomTag") && validPOST("statutArticle")){
         $sql = "INSERT INTO listearticles (titreArticle, statutArticle, dateCreationArticle, datePublicationtionArticle, ContenuArticle, idCategorie) 
-                 VALUES (:titreArticle, 'Publi', CURDATE(), CURDATE(), :ContenuArticle, 
+                 VALUES (:titreArticle, :statutArticle, CURDATE(), CURDATE(), :ContenuArticle, 
                  (SELECT idCategorie FROM listecategories WHERE nomCategorie = :nomCategorie))";
         $stmt = $db->prepare($sql);
         $res = $stmt->execute([
             "titreArticle" => htmlspecialchars($_POST["titreArticle"]),
             "ContenuArticle" => htmlspecialchars($_POST["ContenuArticle"]),
-            "nomCategorie" => htmlspecialchars($_POST["nomCategorie"])
+            "nomCategorie" => htmlspecialchars($_POST["nomCategorie"]),
+            "statutArticle" => htmlspecialchars($_POST["statutArticle"])
         ]);
                 
         $sqlTag = "INSERT INTO `posseder`(`idTag`, `idArticle`) 
@@ -85,8 +86,14 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                         </select>
                     </div>
                 </div>
+                <div class="form-group w-50">
+                        <label for="input-statutArticle">Statut Article</label><br/>
+                        <select id="input-statutArticle" name="statutArticle">
+                            <option>Publi</option>
+                            <option>Brouillon</option>
+                        </select>
+                </div>
                 <button type="submit" class="mt-3 btn btn-primary">Publier</button>
-                <button type="button" class="mt-3 btn btn-primary">Sauvegarder</button>
             </form>
         </div>
     </div>
