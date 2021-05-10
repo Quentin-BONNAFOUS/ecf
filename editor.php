@@ -17,6 +17,27 @@ if($stmt->execute([$id])){
     $errors[] = "L'article avec l'id $id n'a pu être trouvé";
 }
 
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    if(validPOST("titreArticle") && validPOST("ContenuArticle") && validPOST("nomCategorie") && validPOST("nomTag") && validPOST("statutArticle")){
+        $sql = "UPDATE listearticles SET titreArticle = :titreArticle ,statutArticle= :statutArticle, ContenuArticle = :ContenuArticle WHERE idArticle=:idArticle";
+        $stmt = $db->prepare($sql);
+        $res = $stmt->execute([
+            ":titreArticle" => htmlspecialchars($_POST["titreArticle"]),
+            ":ContenuArticle" => htmlspecialchars($_POST["ContenuArticle"]),
+            ":idArticle" => htmlspecialchars($_POST["idArticle"]),
+            ":statutArticle" => htmlspecialchars($_POST["statutArticle"])
+        ]);  
+
+        if($res === true){
+            redirectTo("index.php");
+        }else{
+            $errors[] = "Erreur lors de la sauvegarde en base de données. Veuillez réessayer ultérieurement.";
+        }
+    }else{
+        $errors[] = "Veuillez remplir tous les champs.";
+    }
+}
+
 
 ?>
 <html lang="en">
@@ -31,13 +52,20 @@ if($stmt->execute([$id])){
     <div class="container d-flex flex-column align-items-center">
     
     <h1> Modifier un article </h1>
+
+    
+    <?php foreach($errors as $error){ ?>
+            <div class="alert alert-warning">
+                <?= $error ?>
+            </div>
+    <?php } ?>    
          
          <div class="card p-4 w-50">
             <form method="POST">
                 <div class="d-flex justify-content-between">
                     <div class="form-group w-50">
                     <input type="text" id="titreArticle" name="titreArticle"
-                            placeholder="<?= $article["titreArticle"] ?>">
+                            placeholder="" value = "<?= $article["titreArticle"] ?>">
                     </div>
                     <div class="form-group w-50">
                         <label for="input-categorie">Categorie</label><br/>
@@ -49,8 +77,10 @@ if($stmt->execute([$id])){
                 </div>
                 <div class="d-flex justify-content-between">
                     <div class="form-group w-50">
+                    <input type="hidden" id="idArticle" name="idArticle"
+                            placeholder="" value = "<?= $id ?>">
                     <input type="text" id="ContenuArticle" name="ContenuArticle"
-                            placeholder="<?= $article["ContenuArticle"] ?>">
+                            placeholder="" value = "<?= $article["ContenuArticle"] ?>">
                     </div>
                     <div class="form-group w-50">
                         <label for="input-tag">Tags</label><br/>
