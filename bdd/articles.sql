@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 10 mai 2021 à 09:33
+-- Généré le : lun. 10 mai 2021 à 09:39
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.4.9
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `listearticles` (
 
 INSERT INTO `listearticles` (`idArticle`, `titreArticle`, `statutArticle`, `dateCreationArticle`, `datePublicationtionArticle`, `ContenuArticle`, `idCategorie`) VALUES
 (1, 'Candy pudding', 'Brouillon', '2021-05-06', '2021-05-06', 'Bien protéiné', 1),
-(2, 'Cookie', 'Brouillon', '2021-05-01', '2021-05-01', 'Bien protéiné', 2),
+(2, 'Cookie', 'Publi', '2021-05-01', '2021-05-01', 'Bien protéiné', 2),
 (3, 'Danish Chupa', 'Corbeille', '2021-04-25', '2021-05-24', 'Bien protéiné', 2),
 (29, 'Fruitcake', 'Brouillon', '2021-05-09', '2021-05-09', 'Bien protéiné', 1);
 

@@ -19,13 +19,14 @@ if($stmt->execute([$id])){
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     if(validPOST("titreArticle") && validPOST("ContenuArticle") && validPOST("nomCategorie") && validPOST("nomTag") && validPOST("statutArticle")){
-        $sql = "UPDATE listearticles SET titreArticle = :titreArticle ,statutArticle= :statutArticle, ContenuArticle = :ContenuArticle WHERE idArticle=:idArticle";
+        $sql = "UPDATE listearticles SET titreArticle = :titreArticle ,statutArticle= :statutArticle, ContenuArticle = :ContenuArticle, idCategorie = (SELECT idCategorie FROM listecategories WHERE nomCategorie = :nomCategorie) WHERE idArticle=:idArticle";
         $stmt = $db->prepare($sql);
         $res = $stmt->execute([
             ":titreArticle" => htmlspecialchars($_POST["titreArticle"]),
             ":ContenuArticle" => htmlspecialchars($_POST["ContenuArticle"]),
             ":idArticle" => htmlspecialchars($_POST["idArticle"]),
-            ":statutArticle" => htmlspecialchars($_POST["statutArticle"])
+            ":statutArticle" => htmlspecialchars($_POST["statutArticle"]),
+            ":nomCategorie" => htmlspecialchars($_POST["nomCategorie"])
         ]);  
 
         if($res === true){
